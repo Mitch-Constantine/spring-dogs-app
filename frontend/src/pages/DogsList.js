@@ -73,15 +73,6 @@ const DogsList = () => {
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Active': return 'success';
-      case 'Adopted': return 'info';
-      case 'Inactive': return 'warning';
-      case 'Deceased': return 'error';
-      default: return 'default';
-    }
-  };
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -138,8 +129,8 @@ const DogsList = () => {
                   <TableCell>Name</TableCell>
                   <TableCell>Breed</TableCell>
                   <TableCell>Age</TableCell>
-                  <TableCell>Owner</TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Weight (lbs)</TableCell>
+                  <TableCell>Temperament</TableCell>
                   <TableCell>Created</TableCell>
                   {isAdmin && <TableCell>Actions</TableCell>}
                 </TableRow>
@@ -157,13 +148,11 @@ const DogsList = () => {
                     </TableCell>
                     <TableCell>{dog.breed}</TableCell>
                     <TableCell>{dog.age}</TableCell>
-                    <TableCell>{dog.ownerName}</TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={dog.status} 
-                        color={getStatusColor(dog.status)}
-                        size="small"
-                      />
+                    <TableCell>{dog.weight ? `${dog.weight} lbs` : 'N/A'}</TableCell>
+                    <TableCell style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <span title={dog.temperament || 'N/A'}>
+                        {dog.temperament || 'N/A'}
+                      </span>
                     </TableCell>
                     <TableCell>{formatDate(dog.createdAt)}</TableCell>
                     {isAdmin && (

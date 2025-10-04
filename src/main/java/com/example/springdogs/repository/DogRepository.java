@@ -16,18 +16,11 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     
     Page<Dog> findByBreedContainingIgnoreCase(String breed, Pageable pageable);
     
-    Page<Dog> findByOwnerNameContainingIgnoreCase(String ownerName, Pageable pageable);
-    
-    Page<Dog> findByStatus(Dog.DogStatus status, Pageable pageable);
-    
     // Combined search
     @Query("SELECT d FROM Dog d WHERE " +
            "(LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) OR " +
            "(LOWER(d.breed) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) OR " +
-           "(LOWER(d.ownerName) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
+           "(LOWER(d.color) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
     Page<Dog> searchDogs(@Param("searchTerm") String searchTerm, Pageable pageable);
-    
-    // Count dogs by status
-    Long countByStatus(Dog.DogStatus status);
 }
 

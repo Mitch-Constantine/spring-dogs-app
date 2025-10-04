@@ -9,8 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -36,6 +34,7 @@ public class DataLoader implements CommandLineRunner {
             admin.setRole(User.Role.ADMIN);
             admin.setActive(true);
             userRepository.save(admin);
+            System.out.println("Admin user created");
         }
 
         // Create default guest user
@@ -49,6 +48,7 @@ public class DataLoader implements CommandLineRunner {
             guest.setRole(User.Role.GUEST);
             guest.setActive(true);
             userRepository.save(guest);
+            System.out.println("Guest user created");
         }
 
         // Add sample dogs for testing
@@ -58,12 +58,8 @@ public class DataLoader implements CommandLineRunner {
             dog1.setBreed("Golden Retriever");
             dog1.setAge(3);
             dog1.setColor("Golden");
-            dog1.setWeight(65.5);
-            dog1.setOwnerName("John Smith");
-            dog1.setOwnerPhone("555-0123");
-            dog1.setOwnerEmail("john.smith@email.com");
-            dog1.setBirthDate(LocalDate.now().minusYears(3));
-            dog1.setStatus(Dog.DogStatus.Active);
+            dog1.setWeight(70.5);
+            dog1.setTemperament("Everyone's best friend - gentle, loving, and great with kids");
             dogRepository.save(dog1);
 
             Dog dog2 = new Dog();
@@ -71,25 +67,17 @@ public class DataLoader implements CommandLineRunner {
             dog2.setBreed("German Shepherd");
             dog2.setAge(5);
             dog2.setColor("Black & Tan");
-            dog2.setWeight(75.2);
-            dog2.setOwnerName("Sarah Johnson");
-            dog2.setOwnerPhone("555-0456");
-            dog2.setOwnerEmail("sarah.j@email.com");
-            dog2.setBirthDate(LocalDate.now().minusYears(5));
-            dog2.setStatus(Dog.DogStatus.Active);
+            dog2.setWeight(85.2);
+            dog2.setTemperament("Highly intelligent working dog - loyal, protective, and energetic");
             dogRepository.save(dog2);
 
             Dog dog3 = new Dog();
             dog3.setName("Max");
-            dog3.setBreed("Labrador");
+            dog3.setBreed("Labrador Retriever");
             dog3.setAge(7);
             dog3.setColor("Chocolate");
-            dog3.setWeight(60.8);
-            dog3.setOwnerName("Mike Brown");
-            dog3.setOwnerPhone("555-0789");
-            dog3.setOwnerEmail("mike.brown@email.com");
-            dog3.setBirthDate(LocalDate.now().minusYears(7));
-            dog3.setStatus(Dog.DogStatus.Adopted);
+            dog3.setWeight(65.0);
+            dog3.setTemperament("Gentle giant who loves children, water activities, and fetch");
             dogRepository.save(dog3);
 
             Dog dog4 = new Dog();
@@ -97,12 +85,8 @@ public class DataLoader implements CommandLineRunner {
             dog4.setBreed("Beagle");
             dog4.setAge(2);
             dog4.setColor("Tri-color");
-            dog4.setWeight(25.3);
-            dog4.setOwnerName("Emma Davis");
-            dog4.setOwnerPhone("555-0321");
-            dog4.setOwnerEmail("emma.davis@email.com");
-            dog4.setBirthDate(LocalDate.now().minusYears(2));
-            dog4.setStatus(Dog.DogStatus.Active);
+            dog4.setWeight(25.8);
+            dog4.setTemperament("Playful, curious, and excellent with families - loves to sniff and explore");
             dogRepository.save(dog4);
 
             Dog dog5 = new Dog();
@@ -110,15 +94,38 @@ public class DataLoader implements CommandLineRunner {
             dog5.setBreed("Boxer");
             dog5.setAge(4);
             dog5.setColor("Brindle");
-            dog5.setWeight(55.7);
-            dog5.setOwnerName("Alex Wilson");
-            dog5.setOwnerPhone("555-0654");
-            dog5.setOwnerEmail("alex.wilson@email.com");
-            dog5.setBirthDate(LocalDate.now().minusYears(4));
-            dog5.setMedicalNotes("Recently treated for minor injury");
-            dog5.setStatus(Dog.DogStatus.Active);
+            dog5.setWeight(75.3);
+            dog5.setTemperament("Territorial, aggressive. Not trained or socialized. Multiple bites on record");
             dogRepository.save(dog5);
+
+            Dog dog6 = new Dog();
+            dog6.setName("Charlie");
+            dog6.setBreed("Siberian Husky");
+            dog6.setAge(1);
+            dog6.setColor("White & Gray");
+            dog6.setWeight(55.1);
+            dog6.setTemperament("High energy sled dog - independent, intelligent, needs lots of exercise");
+            dogRepository.save(dog6);
+
+            Dog dog7 = new Dog();
+            dog7.setName("Molly");
+            dog7.setBreed("French Bulldog");
+            dog7.setAge(6);
+            dog7.setColor("Fawn");
+            dog7.setWeight(28.4);
+            dog7.setTemperament("Chill couch potato - calm, friendly, great apartment companion");
+            dogRepository.save(dog7);
+
+            Dog dog8 = new Dog();
+            dog8.setName("Zeus");
+            dog8.setBreed("Great Dane");
+            dog8.setAge(3);
+            dog8.setColor("Black");
+            dog8.setWeight(145.7);
+            dog8.setTemperament("Gentle giant - despite massive size, super sweet and calm with kids");
+            dogRepository.save(dog8);
+            
+            System.out.println("Sample dogs created successfully");
         }
     }
 }
-

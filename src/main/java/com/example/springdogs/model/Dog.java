@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -41,25 +40,8 @@ public class Dog {
     @Column
     private Double weight;
     
-    @NotBlank(message = "Owner name is required")
-    @Column(name = "owner_name", nullable = false)
-    private String ownerName;
-    
-    @Column(name = "owner_phone")
-    private String ownerPhone;
-    
-    @Column(name = "owner_email")
-    private String ownerEmail;
-    
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-    
-    @Column(name = "medical_notes", length = 1000)
-    private String medicalNotes;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DogStatus status = DogStatus.Active;
+    @Column(length = 500)
+    private String temperament;
     
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -69,8 +51,5 @@ public class Dog {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
-    public enum DogStatus {
-        Active, Inactive, Adopted, Deceased
-    }
 }
 

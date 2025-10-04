@@ -39,12 +39,7 @@ const DogDetail = () => {
       age: '',
       color: '',
       weight: '',
-      ownerName: '',
-      ownerPhone: '',
-      ownerEmail: '',
-      birthDate: '',
-      medicalNotes: '',
-      status: 'Active'
+      temperament: ''
     }
   });
 
@@ -133,44 +128,18 @@ const DogDetail = () => {
                     <Typography variant="body1">{dog.age} years</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Weight</Typography>
+                    <Typography variant="body1">{dog.weight ? `${dog.weight} lbs` : 'N/A'}</Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
                     <Typography variant="body2" color="text.secondary">Color</Typography>
                     <Typography variant="body1">{dog.color || 'N/A'}</Typography>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="body2" color="text.secondary">Weight</Typography>
-                    <Typography variant="body1">{dog.weight ? `${dog.weight} kg` : 'N/A'}</Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="body2" color="text.secondary">Status</Typography>
-                    <Chip label={dog.status} color={dog.status === 'Active' ? 'success' : 'default'} />
-                  </Grid>
-                </Grid>
-                
-                <Divider sx={{ my: 2 }} />
-                
-                <Typography variant="h6" gutterBottom>Owner Information</Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="body2" color="text.secondary">Owner Name</Typography>
-                    <Typography variant="body1">{dog.ownerName}</Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="body2" color="text.secondary">Phone</Typography>
-                    <Typography variant="body1">{dog.ownerPhone || 'N/A'}</Typography>
-                  </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="body2" color="text.secondary">Email</Typography>
-                    <Typography variant="body1">{dog.ownerEmail || 'N/A'}</Typography>
+                    <Typography variant="body2" color="text.secondary">Temperament</Typography>
+                    <Typography variant="body1">{dog.temperament || 'N/A'}</Typography>
                   </Grid>
                 </Grid>
-                
-                {dog.medicalNotes && (
-                  <>
-                    <Divider sx={{ my: 2 }} />
-                    <Typography variant="h6" gutterBottom>Medical Notes</Typography>
-                    <Typography variant="body1">{dog.medicalNotes}</Typography>
-                  </>
-                )}
               </CardContent>
             </Card>
           </Box>
@@ -215,71 +184,25 @@ const DogDetail = () => {
                   {...register('color')}
                 />
               </Grid>
+              
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
-                  label="Weight (kg)"
+                  label="Weight (lbs)"
                   type="number"
                   step="0.1"
                   {...register('weight', { min: { value: 0, message: 'Weight must be positive' } })}
                 />
               </Grid>
               
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  fullWidth
-                  label="Owner Name *"
-                  error={!!errors.ownerName}
-                  helperText={errors.ownerName?.message}
-                  {...register('ownerName', { required: 'Owner name is required' })}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  fullWidth
-                  label="Owner Phone"
-                  {...register('ownerPhone')}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  fullWidth
-                  label="Owner Email"
-                  type="email"
-                  {...register('ownerEmail')}
-                />
-              </Grid>
-              
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Birth Date"
-                  type="date"
-                  InputLabelProps={{ shrink: true }}
-                  {...register('birthDate')}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Status"
-                  select
-                  {...register('status')}
-                >
-                  <MenuItem value="Active">Active</MenuItem>
-                  <MenuItem value="Inactive">Inactive</MenuItem>
-                  <MenuItem value="Adopted">Adopted</MenuItem>
-                  <MenuItem value="Deceased">Deceased</MenuItem>
-                </TextField>
-              </Grid>
-              
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Medical Notes"
+                  label="Temperament"
                   multiline
-                  rows={4}
-                  {...register('medicalNotes')}
+                  rows={2}
+                  helperText="One-line descriptive text about the dog's temperament"
+                  {...register('temperament')}
                 />
               </Grid>
             </Grid>

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,12 +18,7 @@ public class DogDto {
     private Integer age;
     private String color;
     private Double weight;
-    private String ownerName;
-    private String ownerPhone;
-    private String ownerEmail;
-    private LocalDate birthDate;
-    private String medicalNotes;
-    private Dog.DogStatus status;
+    private String temperament;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
@@ -37,12 +31,7 @@ public class DogDto {
         dto.setAge(dog.getAge());
         dto.setColor(dog.getColor());
         dto.setWeight(dog.getWeight());
-        dto.setOwnerName(dog.getOwnerName());
-        dto.setOwnerPhone(dog.getOwnerPhone());
-        dto.setOwnerEmail(dog.getOwnerEmail());
-        dto.setBirthDate(dog.getBirthDate());
-        dto.setMedicalNotes(dog.getMedicalNotes());
-        dto.setStatus(dog.getStatus());
+        dto.setTemperament(dog.getTemperament());
         dto.setCreatedAt(dog.getCreatedAt());
         dto.setUpdatedAt(dog.getUpdatedAt());
         return dto;
@@ -56,12 +45,7 @@ public class DogDto {
         dog.setAge(this.age);
         dog.setColor(this.color);
         dog.setWeight(this.weight);
-        dog.setOwnerName(this.ownerName);
-        dog.setOwnerPhone(this.ownerPhone);
-        dog.setOwnerEmail(this.ownerEmail);
-        dog.setBirthDate(this.birthDate);
-        dog.setMedicalNotes(this.medicalNotes);
-        dog.setStatus(this.status != null ? this.status : Dog.DogStatus.Active);
+        dog.setTemperament(this.temperament);
         return dog;
     }
 }
