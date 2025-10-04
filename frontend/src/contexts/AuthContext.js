@@ -53,20 +53,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  const signup = async (userData) => {
-    try {
-      await authService.signup(userData);
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: error.response?.data?.message || 'Signup failed' };
-    }
-  };
-
   const value = {
     user,
     login,
     logout,
-    signup,
     loading
   };
 

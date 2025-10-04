@@ -20,7 +20,7 @@ A full-stack application for managing dog records with authentication and author
 
 ## 🚀 Features
 
-- **User Management**: Registration, login, and role-based access (ADMIN/GUEST)
+- **User Management**: Login and role-based access (ADMIN/GUEST)
 - **Dog Records**: Comprehensive dog information management
 - **CRUD Operations**: Create, read, update, delete dogs (Admin only)
 - **Search & Pagination**: Find dogs by various criteria
@@ -112,7 +112,6 @@ spring-dogs/
 
 ### Authentication
 - `POST /api/auth/login` - Login
-- `POST /api/auth/signup` - Register new user
 - `POST /api/auth/logout` - Logout
 
 ### Dogs (Admin Only)
