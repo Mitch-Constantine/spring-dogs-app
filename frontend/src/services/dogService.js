@@ -1,9 +1,15 @@
 import api from './api';
 
-export const dogService = {
-  getDogs: (page = 0, size = 10, search = '') => {
+const dogService = {
+  getDogs: (page = 0, size = 10, search = '', prediction = '') => {
     return api.get('/dogs', {
-      params: { page, size, search }
+      params: { page, size, search, prediction }
+    });
+  },
+
+  getAllDogs: () => {
+    return api.get('/dogs', {
+      params: { size: 1000 }
     });
   },
   
@@ -27,4 +33,6 @@ export const dogService = {
     return api.get('/dogs/stats');
   }
 };
+
+export default dogService;
 

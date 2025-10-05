@@ -60,6 +60,8 @@ public class DataLoader implements CommandLineRunner {
             dog1.setColor("Golden");
             dog1.setWeight(70.5);
             dog1.setTemperament("Everyone's best friend - gentle, loving, and great with kids");
+            dog1.setIsSafeToPet("Yes");
+            dog1.setSafetyExplanation("Golden Retrievers are known for their gentle temperament. This dog shows typical friendly behavior and poses no safety risks.");
             dogRepository.save(dog1);
 
             Dog dog2 = new Dog();
@@ -69,6 +71,8 @@ public class DataLoader implements CommandLineRunner {
             dog2.setColor("Black & Tan");
             dog2.setWeight(85.2);
             dog2.setTemperament("Highly intelligent working dog - loyal, protective, and energetic");
+            dog2.setIsSafeToPet("Cautiously");
+            dog2.setSafetyExplanation("German Shepherds are naturally protective. While intelligent and loyal, they can be guarded around strangers and unpredictable.");
             dogRepository.save(dog2);
 
             Dog dog3 = new Dog();
@@ -78,6 +82,8 @@ public class DataLoader implements CommandLineRunner {
             dog3.setColor("Chocolate");
             dog3.setWeight(65.0);
             dog3.setTemperament("Gentle giant who loves children, water activities, and fetch");
+            dog3.setIsSafeToPet("Yes");
+            dog3.setSafetyExplanation("Labrador Retrievers are known for their friendly nature. This dog shows excellent temperament around children and is well-socialized.");
             dogRepository.save(dog3);
 
             Dog dog4 = new Dog();
@@ -87,6 +93,8 @@ public class DataLoader implements CommandLineRunner {
             dog4.setColor("Tri-color");
             dog4.setWeight(25.8);
             dog4.setTemperament("Playful, curious, and excellent with families - loves to sniff and explore");
+            dog4.setIsSafeToPet("Yes");
+            dog4.setSafetyExplanation("Beagles are typically friendly and great with families. This dog shows normal playful behavior and poses minimal risk.");
             dogRepository.save(dog4);
 
             Dog dog5 = new Dog();
@@ -96,6 +104,8 @@ public class DataLoader implements CommandLineRunner {
             dog5.setColor("Brindle");
             dog5.setWeight(75.3);
             dog5.setTemperament("Territorial, aggressive. Not trained or socialized. Multiple bites on record");
+            dog5.setIsSafeToPet("No");
+            dog5.setSafetyExplanation("This dog has a documented history of aggression and bites. Do not approach under any circumstances. Requires professional training.");
             dogRepository.save(dog5);
 
             Dog dog6 = new Dog();
@@ -105,6 +115,8 @@ public class DataLoader implements CommandLineRunner {
             dog6.setColor("White & Gray");
             dog6.setWeight(55.1);
             dog6.setTemperament("High energy sled dog - independent, intelligent, needs lots of exercise");
+            dog6.setIsSafeToPet("Cautiously");
+            dog6.setSafetyExplanation("Huskies are independent working dogs with high energy. Can be unpredictable and may not respond well to strangers approaching.");
             dogRepository.save(dog6);
 
             Dog dog7 = new Dog();
@@ -114,6 +126,8 @@ public class DataLoader implements CommandLineRunner {
             dog7.setColor("Fawn");
             dog7.setWeight(28.4);
             dog7.setTemperament("Chill couch potato - calm, friendly, great apartment companion");
+            dog7.setIsSafeToPet("Yes");
+            dog7.setSafetyExplanation("French Bulldogs are typically calm and friendly. This dog shows relaxed temperament and poses no safety concerns.");
             dogRepository.save(dog7);
 
             Dog dog8 = new Dog();
@@ -123,6 +137,8 @@ public class DataLoader implements CommandLineRunner {
             dog8.setColor("Black");
             dog8.setWeight(145.7);
             dog8.setTemperament("Gentle giant - despite massive size, super sweet and calm with kids");
+            dog8.setIsSafeToPet("Yes");
+            dog8.setSafetyExplanation("Great Danes are known as gentle giants. Despite their size, this dog shows excellent temperament and is great with children.");
             dogRepository.save(dog8);
             
             System.out.println("Sample dogs created successfully");

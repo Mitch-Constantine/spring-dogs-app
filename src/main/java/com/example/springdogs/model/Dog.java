@@ -43,6 +43,12 @@ public class Dog {
     @Column(length = 500)
     private String temperament;
     
+    @Column
+    private String isSafeToPet; // Yes, No, Cautiously, Error
+    
+    @Column(length = 1000)
+    private String safetyExplanation;
+    
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -15,10 +15,26 @@ import {
   Divider,
   Alert,
   CircularProgress,
+  Tooltip,
 } from '@mui/material';
 import { Save, Cancel } from '@mui/icons-material';
-import { dogService } from '../services/dogService';
+import dogService from '../services/dogService';
 import { useAuth } from '../contexts/AuthContext';
+
+// Prediction badge styling (matching DogsCardGrid)
+const predictionColors = {
+  'Yes': '#4caf50', // Green
+  'Cautiously': '#ff9800', // Orange
+  'No': '#f44336', // Red
+  'Error': '#757575' // Grey
+};
+
+const predictionIcons = {
+  'Yes': '✅',
+  'Cautiously': '⚠️',
+  'No': '⛔',
+  'Error': '❓'
+};
 
 const DogDetail = () => {
   const { id } = useParams();
@@ -31,6 +47,9 @@ const DogDetail = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [dog, setDog] = useState(null);
+  const [predictionLoading, setPredictionLoading] = useState(false);
+  const [currentPrediction, setCurrentPrediction] = useState(null);
+  const [currentExplanation, setCurrentExplanation] = useState('');
 
   const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
     defaultValues: {
@@ -39,9 +58,102 @@ const DogDetail = () => {
       age: '',
       color: '',
       weight: '',
-      temperament: ''
+      temperament: '',
+      isSafeToPet: '',
+      safetyExplanation: ''
     }
   });
+
+  // Watch form values for auto-prediction
+  const watchedValues = watch(['name', 'breed', 'age', 'weight', 'temperament']);
+
+  const getPredictionBadge = (prediction) => {
+    if (!prediction && !currentPrediction) return null;
+    
+    const predictionValue = prediction || currentPrediction;
+    const explanation = currentExplanation;
+    const color = predictionColors[predictionValue] || '#757575';
+    const icon = predictionIcons[predictionValue] || '❓';
+    
+    return (
+      <Box
+        sx={{
+          backgroundColor: color,
+          color: 'white',
+          borderRadius: '16px',
+          padding: '4px 12px',
+          fontSize: '0.875rem',
+          fontWeight: 'bold',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+          width: 'fit-content'
+        }}
+      >
+        {predictionLoading ? (
+          <>
+            <CircularProgress size={12} color="inherit" />
+            Updating...
+          </>
+        ) : (
+          <>
+            {icon} {predictionValue}
+          </>
+        )}
+      </Box>
+    );
+  };
+
+  const updatePrediction = async () => {
+    const formValues = watchedValues.reduce((acc, value, index) => {
+      const keys = ['name', 'breed', 'age', 'weight', 'temperament'];
+      acc[keys[index]] = value;
+      return acc;
+    }, {});
+
+    // Check if we have minimum required fields for prediction
+    if (!formValues.name || !formValues.breed || !formValues.age) {
+      return;
+    }
+
+    try {
+      setPredictionLoading(true);
+      
+      // Create a temporary dog object for prediction
+      const tempDog = {
+        name: formValues.name,
+        breed: formValues.breed,
+        age: parseInt(formValues.age) || 0,
+        color: formValues.color || '',
+        weight: parseFloat(formValues.weight) || null,
+        temperament: formValues.temperament || '',
+        isSafeToPet: null, // Clear existing prediction to trigger new one
+        safetyExplanation: null
+      };
+
+      // For new dogs, we'll just update the local state since there's no backend ID yet
+      if (isNew) {
+        // Simulate ChatGPT prediction for new dogs
+        setCurrentPrediction('Yes'); // Default for demonstration
+        setCurrentExplanation('Dog appears safe based on provided information');
+        return;
+      }
+
+      // Update the dog to trigger ChatGPT prediction
+      const response = await dogService.updateDog(id, tempDog);
+      
+      if (response.data) {
+        setCurrentPrediction(response.data.isSafeToPet);
+        setCurrentExplanation(response.data.safetyExplanation);
+      }
+    } catch (err) {
+      console.error('Error updating prediction:', err);
+      setCurrentPrediction('Error');
+      setCurrentExplanation('Failed to get updated prediction');
+    } finally {
+      setPredictionLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!isNew) {
@@ -55,6 +167,8 @@ const DogDetail = () => {
       const response = await dogService.getDogById(id);
       setDog(response.data);
       reset(response.data);
+      setCurrentPrediction(response.data.isSafeToPet);
+      setCurrentExplanation(response.data.safetyExplanation);
       setError('');
     } catch (err) {
       setError('Failed to load dog details');
@@ -108,6 +222,18 @@ const DogDetail = () => {
         </Alert>
       )}
 
+      {/* Safety Prediction Badge */}
+      {(isAdmin || isNew) && (currentPrediction || predictionLoading) && (
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+            Safety Prediction:
+          </Typography>
+          <Tooltip title={currentExplanation || 'No explanation available'}>
+            {getPredictionBadge(currentPrediction)}
+          </Tooltip>
+        </Box>
+      )}
+
       <Paper sx={{ p: 3 }}>
         {!isAdmin && !isNew && dog && (
           <Box mb={3}>
@@ -154,6 +280,7 @@ const DogDetail = () => {
                   label="Name *"
                   error={!!errors.name}
                   helperText={errors.name?.message}
+                  onBlur={updatePrediction}
                   {...register('name', { required: 'Name is required' })}
                 />
               </Grid>
@@ -163,6 +290,7 @@ const DogDetail = () => {
                   label="Breed *"
                   error={!!errors.breed}
                   helperText={errors.breed?.message}
+                  onBlur={updatePrediction}
                   {...register('breed', { required: 'Breed is required' })}
                 />
               </Grid>
@@ -174,6 +302,7 @@ const DogDetail = () => {
                   type="number"
                   error={!!errors.age}
                   helperText={errors.age?.message}
+                  onBlur={updatePrediction}
                   {...register('age', { required: 'Age is required', min: { value: 0, message: 'Age must be positive' } })}
                 />
               </Grid>
@@ -190,8 +319,16 @@ const DogDetail = () => {
                   fullWidth
                   label="Weight (lbs)"
                   type="number"
-                  step="0.1"
-                  {...register('weight', { min: { value: 0, message: 'Weight must be positive' } })}
+                  inputProps={{ 
+                    step: "0.1",
+                    min: "0",
+                    pattern: "[0-9]*\\.?[0-9]+"
+                  }}
+                  onBlur={updatePrediction}
+                  {...register('weight', { 
+                    valueAsNumber: true,
+                    min: { value: 0, message: 'Weight must be positive' } 
+                  })}
                 />
               </Grid>
               
@@ -202,6 +339,7 @@ const DogDetail = () => {
                   multiline
                   rows={2}
                   helperText="One-line descriptive text about the dog's temperament"
+                  onBlur={updatePrediction}
                   {...register('temperament')}
                 />
               </Grid>

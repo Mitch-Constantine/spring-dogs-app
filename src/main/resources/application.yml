@@ -22,6 +22,12 @@ spring:
       hibernate:
         format_sql: true
         
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+        
   data:
     redis:
       host: localhost
@@ -34,4 +40,5 @@ server:
 app:
   jwtSecret: mySuperSecureSecretKeyForJWTTokenGeneration1234567890abcdef
   jwtExpirationMs: 86400000
+  openaiApiKey: ${OPENAI_API_KEY:your-openai-api-key-here}
 

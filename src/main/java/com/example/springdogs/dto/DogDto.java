@@ -1,6 +1,7 @@
 package com.example.springdogs.dto;
 
 import com.example.springdogs.model.Dog;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,13 @@ public class DogDto {
     private String color;
     private Double weight;
     private String temperament;
+    private String isSafeToPet;
+    private String safetyExplanation;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
     
     // Convert from Entity to DTO
@@ -32,6 +39,8 @@ public class DogDto {
         dto.setColor(dog.getColor());
         dto.setWeight(dog.getWeight());
         dto.setTemperament(dog.getTemperament());
+        dto.setIsSafeToPet(dog.getIsSafeToPet());
+        dto.setSafetyExplanation(dog.getSafetyExplanation());
         dto.setCreatedAt(dog.getCreatedAt());
         dto.setUpdatedAt(dog.getUpdatedAt());
         return dto;
@@ -46,6 +55,8 @@ public class DogDto {
         dog.setColor(this.color);
         dog.setWeight(this.weight);
         dog.setTemperament(this.temperament);
+        dog.setIsSafeToPet(this.isSafeToPet);
+        dog.setSafetyExplanation(this.safetyExplanation);
         return dog;
     }
 }

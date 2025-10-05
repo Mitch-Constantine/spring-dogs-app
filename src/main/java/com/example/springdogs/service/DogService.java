@@ -1,6 +1,8 @@
 package com.example.springdogs.service;
 
 import com.example.springdogs.dto.DogDto;
+import com.example.springdogs.dto.ChatGptDogDto;
+import com.example.springdogs.dto.SafetyPrediction;
 import com.example.springdogs.model.Dog;
 import com.example.springdogs.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,15 @@ public class DogService {
 
     @Autowired
     private DogRepository dogRepository;
+    
+    @Autowired
+    private ChatGptService chatGptService;
 
-    public Page<DogDto> findAllDogs(String search, Pageable pageable) {
+    public Page<DogDto> findAllDogs(String search, String prediction, Pageable pageable) {
         Page<Dog> dogs;
-        if (search != null && !search.trim().isEmpty()) {
+        if (prediction != null && !prediction.trim().isEmpty() && !prediction.equals("All")) {
+            dogs = dogRepository.findByIsSafeToPet(prediction, pageable);
+        } else if (search != null && !search.trim().isEmpty()) {
             dogs = dogRepository.searchDogs(search, pageable);
         } else {
             dogs = dogRepository.findAll(pageable);
@@ -37,6 +44,15 @@ public class DogService {
 
     public DogDto saveDog(DogDto dogDto) {
         Dog dog = dogDto.toEntity();
+        
+        // Only get ChatGPT prediction if safety prediction is missing or empty
+        if (dog.getIsSafeToPet() == null || dog.getIsSafeToPet().trim().isEmpty()) {
+            ChatGptDogDto chatGptDogDto = ChatGptDogDto.from(dogDto);
+            SafetyPrediction prediction = chatGptService.predictDogSafety(chatGptDogDto);
+            dog.setIsSafeToPet(prediction.getIsSafeToPet());
+            dog.setSafetyExplanation(prediction.getSafetyExplanation());
+        }
+        
         Dog savedDog = dogRepository.save(dog);
         return DogDto.fromEntity(savedDog);
     }
@@ -53,6 +69,13 @@ public class DogService {
         existingDog.setColor(dogDto.getColor());
         existingDog.setWeight(dogDto.getWeight());
         existingDog.setTemperament(dogDto.getTemperament());
+        
+        // Always get fresh ChatGPT safety prediction when dog data is updated
+        // This ensures temperament changes trigger new predictions
+        ChatGptDogDto chatGptDogDto = ChatGptDogDto.from(dogDto);
+        SafetyPrediction prediction = chatGptService.predictDogSafety(chatGptDogDto);
+        existingDog.setIsSafeToPet(prediction.getIsSafeToPet());
+        existingDog.setSafetyExplanation(prediction.getSafetyExplanation());
         
         Dog updatedDog = dogRepository.save(existingDog);
         return Optional.of(DogDto.fromEntity(updatedDog));

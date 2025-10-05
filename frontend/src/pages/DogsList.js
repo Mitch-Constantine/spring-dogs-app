@@ -23,7 +23,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { Add, Edit, Delete, Search } from '@mui/icons-material';
-import { dogService } from '../services/dogService';
+import dogService from '../services/dogService';
 import { useAuth } from '../contexts/AuthContext';
 
 const DogsList = () => {

@@ -6,7 +6,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Layout from './components/Layout';
 import Login from './pages/Login';
-import DogsList from './pages/DogsList';
+import DogsCardGrid from './components/DogsCardGrid';
 import DogDetail from './pages/DogDetail';
 import './App.css';
 
@@ -32,8 +32,8 @@ function App() {
           <div className="App">
             <Routes>
               <Route path="/login" element={<Login />} />
-              <Route path="/" element={<PrivateRoute><Layout><DogsList /></Layout></PrivateRoute>} />
-              <Route path="/dogs" element={<PrivateRoute><Layout><DogsList /></Layout></PrivateRoute>} />
+              <Route path="/" element={<PrivateRoute><Layout><DogsCardGrid /></Layout></PrivateRoute>} />
+              <Route path="/dogs" element={<PrivateRoute><Layout><DogsCardGrid /></Layout></PrivateRoute>} />
               <Route path="/dogs/:id" element={<PrivateRoute><Layout><DogDetail /></Layout></PrivateRoute>} />
               <Route path="*" element={<Navigate to="/login" />} />
             </Routes>

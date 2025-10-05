@@ -26,8 +26,9 @@ public class DogController {
     @GetMapping
     public ResponseEntity<Page<DogDto>> getAllDogs(
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) String prediction,
             Pageable pageable) {
-        Page<DogDto> dogs = dogService.findAllDogs(search, pageable);
+        Page<DogDto> dogs = dogService.findAllDogs(search, prediction, pageable);
         return ResponseEntity.ok(dogs);
     }
 

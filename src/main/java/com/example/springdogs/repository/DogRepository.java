@@ -16,11 +16,14 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     
     Page<Dog> findByBreedContainingIgnoreCase(String breed, Pageable pageable);
     
-    // Combined search
-    @Query("SELECT d FROM Dog d WHERE " +
-           "(LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) OR " +
-           "(LOWER(d.breed) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) OR " +
-           "(LOWER(d.color) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
-    Page<Dog> searchDogs(@Param("searchTerm") String searchTerm, Pageable pageable);
+        // Combined search
+        @Query("SELECT d FROM Dog d WHERE " +
+               "(LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) OR " +
+               "(LOWER(d.breed) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) OR " +
+               "(LOWER(d.color) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
+        Page<Dog> searchDogs(@Param("searchTerm") String searchTerm, Pageable pageable);
+
+        // Filter by safety prediction
+        Page<Dog> findByIsSafeToPet(String isSafeToPet, Pageable pageable);
 }
 
